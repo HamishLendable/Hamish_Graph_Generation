@@ -1,0 +1,68 @@
+[project]
+name = "motor-graph-generation"
+version = "0.1.0"
+description = "Standardised MoTa credit risk chart-style library for Lendable UK motor finance"
+readme = "README.md"
+requires-python = ">=3.11,<3.12"
+authors = [
+    {name = "Hamish Aitken", email = "hamish.aitken@lendable.co.uk"},
+]
+scripts = {"motor-graph" = "motor_graphs.cli:main"}
+dependencies = [
+    "pandas (>=2.2.3,<3.0.0)",
+    "plotly (>=6.0.1,<7.0.0)",
+    "kaleido (==0.2.1)",
+    "python-dotenv (>=1.1.0,<2.0.0)",
+    "python-dateutil (>=2.8.1)",
+    "pyyaml (>=6.0.2,<7.0.0)",
+    "click (>=8.1.7,<9.0.0)",
+    "lentils[snowflake] (>=0.3.0,<0.4.0)",
+    "sniffio (>=1.3.1,<2.0.0)",
+]
+
+
+[[tool.poetry.source]]
+name = "lendable"
+url = "https://pypi.tools.int.zable.co.uk/"
+priority = "supplemental"
+
+
+[tool.poetry]
+packages = [{include = "motor_graphs"}]
+
+
+[tool.poetry.dependencies]
+# Per-package source override for lentils (the version + extras live in [project.dependencies] above).
+lentils = { source = "lendable" }
+
+
+[tool.poetry.group.dev.dependencies]
+ruff = "^0.11.5"
+black = "^25.1.0"
+pytest = "^8.3.5"
+pytest-mpl = "^0.17.0"
+pre-commit = "^4.0.1"
+
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+
+[tool.ruff]
+line-length = 110
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B"]
+
+
+[tool.black]
+line-length = 100
+target-version = ["py311"]
+
+
+[tool.pytest.ini_options]
+markers = [
+    "snowflake: tests that require live Snowflake credentials (excluded from CI)",
+]

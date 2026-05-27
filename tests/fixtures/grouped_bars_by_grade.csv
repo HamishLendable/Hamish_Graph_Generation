@@ -1,0 +1,17 @@
+grade,series,rate,n
+A,BEV,0.01125,303
+A,Rest of book,0.01135,1359
+B,BEV,0.01897,498
+B,Rest of book,0.01593,1058
+C,BEV,0.02276,423
+C,Rest of book,0.01816,1814
+D,BEV,0.02225,417
+D,Rest of book,0.01758,992
+E,BEV,0.028,380
+E,Rest of book,0.02233,1828
+F,BEV,0.03874,348
+F,Rest of book,0.0326,1535
+F*,BEV,0.03505,236
+F*,Rest of book,0.02982,937
+F**,BEV,0.04821,495
+F**,Rest of book,0.0413,852

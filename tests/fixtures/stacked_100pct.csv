@@ -1,0 +1,109 @@
+month,category,share,n
+2024-01,Aggregator,20.46,1978
+2024-02,Aggregator,23.05,1795
+2024-03,Aggregator,33.91,741
+2024-04,Aggregator,9.44,1548
+2024-05,Aggregator,4.68,572
+2024-06,Aggregator,28.34,1067
+2024-07,Aggregator,15.22,1323
+2024-08,Aggregator,3.67,1918
+2024-09,Aggregator,27.01,1736
+2024-10,Aggregator,29.4,2420
+2024-11,Aggregator,9.09,1453
+2024-12,Aggregator,18.53,1916
+2025-01,Aggregator,5.82,1505
+2025-02,Aggregator,15.88,2039
+2025-03,Aggregator,17.73,1989
+2025-04,Aggregator,13.06,1136
+2025-05,Aggregator,18.61,1221
+2025-06,Aggregator,6.46,1126
+2024-01,Broker - Dealer led,19.4,1978
+2024-02,Broker - Dealer led,14.52,1795
+2024-03,Broker - Dealer led,13.22,741
+2024-04,Broker - Dealer led,22.5,1548
+2024-05,Broker - Dealer led,27.12,572
+2024-06,Broker - Dealer led,17.41,1067
+2024-07,Broker - Dealer led,17.81,1323
+2024-08,Broker - Dealer led,35.58,1918
+2024-09,Broker - Dealer led,3.73,1736
+2024-10,Broker - Dealer led,19.05,2420
+2024-11,Broker - Dealer led,24.68,1453
+2024-12,Broker - Dealer led,4.58,1916
+2025-01,Broker - Dealer led,10.05,1505
+2025-02,Broker - Dealer led,19.12,2039
+2025-03,Broker - Dealer led,15.91,1989
+2025-04,Broker - Dealer led,16.67,1136
+2025-05,Broker - Dealer led,19.5,1221
+2025-06,Broker - Dealer led,4.6,1126
+2024-01,Broker - Online led,17.83,1978
+2024-02,Broker - Online led,10.3,1795
+2024-03,Broker - Online led,6.81,741
+2024-04,Broker - Online led,27.11,1548
+2024-05,Broker - Online led,19.17,572
+2024-06,Broker - Online led,15.19,1067
+2024-07,Broker - Online led,17.72,1323
+2024-08,Broker - Online led,18.98,1918
+2024-09,Broker - Online led,6.23,1736
+2024-10,Broker - Online led,19.2,2420
+2024-11,Broker - Online led,19.64,1453
+2024-12,Broker - Online led,17.14,1916
+2025-01,Broker - Online led,19.93,1505
+2025-02,Broker - Online led,30.05,2039
+2025-03,Broker - Online led,20.17,1989
+2025-04,Broker - Online led,24.77,1136
+2025-05,Broker - Online led,14.29,1221
+2025-06,Broker - Online led,10.72,1126
+2024-01,Dealer,13.44,1978
+2024-02,Dealer,18.25,1795
+2024-03,Dealer,9.99,741
+2024-04,Dealer,17.0,1548
+2024-05,Dealer,13.68,572
+2024-06,Dealer,3.02,1067
+2024-07,Dealer,11.13,1323
+2024-08,Dealer,16.47,1918
+2024-09,Dealer,28.41,1736
+2024-10,Dealer,4.44,2420
+2024-11,Dealer,23.79,1453
+2024-12,Dealer,20.43,1916
+2025-01,Dealer,21.38,1505
+2025-02,Dealer,8.62,2039
+2025-03,Dealer,17.23,1989
+2025-04,Dealer,6.85,1136
+2025-05,Dealer,12.78,1221
+2025-06,Dealer,22.0,1126
+2024-01,Direct,11.25,1978
+2024-02,Direct,13.64,1795
+2024-03,Direct,15.23,741
+2024-04,Direct,3.76,1548
+2024-05,Direct,11.74,572
+2024-06,Direct,25.13,1067
+2024-07,Direct,19.76,1323
+2024-08,Direct,6.19,1918
+2024-09,Direct,17.56,1736
+2024-10,Direct,12.47,2420
+2024-11,Direct,11.67,1453
+2024-12,Direct,22.02,1916
+2025-01,Direct,27.68,1505
+2025-02,Direct,17.87,2039
+2025-03,Direct,11.81,1989
+2025-04,Direct,25.82,1136
+2025-05,Direct,14.39,1221
+2025-06,Direct,25.27,1126
+2024-01,Unknown introducer,17.63,1978
+2024-02,Unknown introducer,20.23,1795
+2024-03,Unknown introducer,20.84,741
+2024-04,Unknown introducer,20.19,1548
+2024-05,Unknown introducer,23.59,572
+2024-06,Unknown introducer,10.9,1067
+2024-07,Unknown introducer,18.36,1323
+2024-08,Unknown introducer,19.11,1918
+2024-09,Unknown introducer,17.06,1736
+2024-10,Unknown introducer,15.45,2420
+2024-11,Unknown introducer,11.12,1453
+2024-12,Unknown introducer,17.3,1916
+2025-01,Unknown introducer,15.13,1505
+2025-02,Unknown introducer,8.45,2039
+2025-03,Unknown introducer,17.16,1989
+2025-04,Unknown introducer,12.83,1136
+2025-05,Unknown introducer,20.43,1221
+2025-06,Unknown introducer,30.94,1126

@@ -1,0 +1,2628 @@
+{
+  "version": "0.1.0",
+  "n_styles": 25,
+  "n_recipes": 8,
+  "styles": [
+    {
+      "name": "grouped_bars_by_grade_two_series",
+      "kind": "style",
+      "module": "motor_graphs.styles.bars",
+      "summary": "Grouped vertical bars by risk grade with two side-by-side series.",
+      "use_when": "- You want to compare a rate (DQ, FPD, VT, etc.) across risk grades for\ntwo segments side by side: BEV vs ROB, Carrera vs Torino, dealer vs\nnon-dealer.",
+      "data_shape": "Long/tidy DataFrame, one row per (grade, series):\ngrade   (str)   \u2014 risk grade label (A, B, ..., F**)\nseries  (str)   \u2014 exactly 2 distinct values (the two segments)\nrate    (float) \u2014 value to plot\nn       (int, opt) \u2014 sample size; required if annotate_n=True",
+      "style_description": "Vertical grouped bars. First series in actual blue (#1f77b4),\nsecond in safety orange (#ff7f0e), unless overridden via series_colors.\nn= annotation above each bar. Grade order: the order they appear in\nGRADE_COLOURS (A, B, C, D, E, F, F*, F**).",
+      "snowflake_tables_used": "",
+      "example": ">>> df = pd.read_csv(\"grouped_bars_by_grade.csv\")\n>>> fig = grouped_bars_by_grade_two_series(df, ylabel=\"90+@9 rate\")",
+      "parameters": [
+        {
+          "name": "df",
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "annotation": "pd.DataFrame",
+          "has_default": false,
+          "default": null
+        },
+        {
+          "name": "grade",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str",
+          "has_default": true,
+          "default": "grade"
+        },
+        {
+          "name": "series",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str",
+          "has_default": true,
+          "default": "series"
+        },
+        {
+          "name": "y",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str",
+          "has_default": true,
+          "default": "rate"
+        },
+        {
+          "name": "n",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str | None",
+          "has_default": true,
+          "default": "n"
+        },
+        {
+          "name": "series_order",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "list[str] | None",
+          "has_default": true,
+          "default": null
+        },
+        {
+          "name": "series_colors",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "dict[str, str] | None",
+          "has_default": true,
+          "default": null
+        },
+        {
+          "name": "title",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str | None",
+          "has_default": true,
+          "default": null
+        },
+        {
+          "name": "xlabel",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str",
+          "has_default": true,
+          "default": "Risk grade"
+        },
+        {
+          "name": "ylabel",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str",
+          "has_default": true,
+          "default": "Rate"
+        },
+        {
+          "name": "y_tickformat",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str",
+          "has_default": true,
+          "default": ".1%"
+        },
+        {
+          "name": "annotate_n",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "bool",
+          "has_default": true,
+          "default": true
+        },
+        {
+          "name": "small_sample_handling",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "SmallSampleMode",
+          "has_default": true,
+          "default": "show"
+        }
+      ]
+    },
+    {
+      "name": "stacked_bar_100pct_monthly_2x2",
+      "kind": "style",
+      "module": "motor_graphs.styles.bars",
+      "summary": "100%-stacked monthly bars showing category mix over time, optionally faceted 2\u00d72.",
+      "use_when": "- You want to track composition (introducer mix, fuel-type mix, LTV-band\n  mix, age-band mix) over monthly cohorts.\n- You want to spot regime shifts in volume composition.",
+      "data_shape": "Long/tidy DataFrame:\nmonth     (str or date) \u2014 origination month label\ncategory  (str)         \u2014 the stacked-band category\nshare     (float)       \u2014 share in 0-100 (already a percentage, NOT decimal)\nn         (int, opt)    \u2014 total sample size at that month (required if annotate_n=True)\nfacet     (str, opt)    \u2014 if given, the chart is laid out 2\u00d72 with one\n                           panel per distinct facet value (exactly 4 expected)",
+      "style_description": "100%-stacked vertical bars per month. Categories coloured via\ncategory_colors (or INTRODUCER_CATEGORY_COLORS by default \u2014 falls back\nto grey for unmapped categories). n= total annotation above each column.",
+      "snowflake_tables_used": "",
+      "example": ">>> df = pd.read_csv(\"stacked_100pct.csv\")\n>>> fig = stacked_bar_100pct_monthly_2x2(df, title=\"Introducer mix\")",
+      "parameters": [
+        {
+          "name": "df",
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "annotation": "pd.DataFrame",
+          "has_default": false,
+          "default": null
+        },
+        {
+          "name": "month",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str",
+          "has_default": true,
+          "default": "month"
+        },
+        {
+          "name": "category",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str",
+          "has_default": true,
+          "default": "category"
+        },
+        {
+          "name": "share",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str",
+          "has_default": true,
+          "default": "share"
+        },
+        {
+          "name": "n",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str | None",
+          "has_default": true,
+          "default": "n"
+        },
+        {
+          "name": "facet",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str | None",
+          "has_default": true,
+          "default": null
+        },
+        {
+          "name": "category_colors",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "dict[str, str] | None",
+          "has_default": true,
+          "default": null
+        },
+        {
+          "name": "title",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str | None",
+          "has_default": true,
+          "default": null
+        },
+        {
+          "name": "xlabel",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str",
+          "has_default": true,
+          "default": "Origination month"
+        },
+        {
+          "name": "annotate_n",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "bool",
+          "has_default": true,
+          "default": true
+        }
+      ]
+    },
+    {
+      "name": "bar_horizontal_top_n",
+      "kind": "style",
+      "module": "motor_graphs.styles.more_bars",
+      "summary": "Single horizontal bar chart, sorted descending, showing top-N categories.",
+      "use_when": "- You want a league-table view of top introducers / dealers / brokers\nby \u00a3 originated (or any other count/volume metric).",
+      "data_shape": "Long/tidy DataFrame, one row per category:\ncategory  (str)   \u2014 bar label\nvalue     (float) \u2014 magnitude (\u00a3 or count)\nn         (int, opt) \u2014 sample size; required if annotate_n=True",
+      "style_description": "Single horizontal bar trace, ACTUAL blue. Categories sorted descending\nby value; bars rendered top \u2192 bottom (largest at top). n= annotation\ninside each bar (right-aligned). Value label on each bar formatted via\n`value_fmt` (defaults to \u00a3-formatted whole numbers).",
+      "snowflake_tables_used": "",
+      "example": ">>> df = pd.read_csv(\"bar_horizontal_top_n.csv\")\n>>> fig = bar_horizontal_top_n(df, title=\"Top 10 introducers by \u00a3 originated\")",
+      "parameters": [
+        {
+          "name": "df",
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "annotation": "pd.DataFrame",
+          "has_default": false,
+          "default": null
+        },
+        {
+          "name": "category",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str",
+          "has_default": true,
+          "default": "category"
+        },
+        {
+          "name": "value",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str",
+          "has_default": true,
+          "default": "value"
+        },
+        {
+          "name": "n",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str | None",
+          "has_default": true,
+          "default": "n"
+        },
+        {
+          "name": "top_n",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "int",
+          "has_default": true,
+          "default": 10
+        },
+        {
+          "name": "value_fmt",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str",
+          "has_default": true,
+          "default": "\u00a3,.0f"
+        },
+        {
+          "name": "title",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str | None",
+          "has_default": true,
+          "default": null
+        },
+        {
+          "name": "xlabel",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str",
+          "has_default": true,
+          "default": "Volume"
+        },
+        {
+          "name": "ylabel",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str | None",
+          "has_default": true,
+          "default": null
+        },
+        {
+          "name": "annotate_n",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "bool",
+          "has_default": true,
+          "default": true
+        },
+        {
+          "name": "small_sample_handling",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "SmallSampleMode",
+          "has_default": true,
+          "default": "show"
+        }
+      ]
+    },
+    {
+      "name": "bar_plus_line_share_top_n",
+      "kind": "style",
+      "module": "motor_graphs.styles.more_bars",
+      "summary": "Vertical bar (amount share) + overlaid line (count share) on top-N categories.",
+      "use_when": "- You want to compare \u00a3-share against count-share across the same\nranked set of categories \u2014 useful for spotting introducers that\npunch above their weight in \u00a3 vs volume.",
+      "data_shape": "Long/tidy DataFrame, one row per category:\ncategory      (str)   \u2014 bar/line x-axis label\namount_share  (float) \u2014 bar value (decimal, e.g. 0.18 for 18%)\ncount_share   (float) \u2014 overlaid-line value (decimal)\nn             (int, opt) \u2014 sample size; required if annotate_n=True",
+      "style_description": "Single panel with secondary y-axis. Vertical bars (ACTUAL blue) for\namount share on the left y-axis; overlaid line+markers (SECONDARY\norange) for count share on the right y-axis. Categories sorted by\n`bar_value` descending; top_n retained. n= annotation above each bar.",
+      "snowflake_tables_used": "",
+      "example": ">>> df = pd.read_csv(\"bar_plus_line_share_top_n.csv\")\n>>> fig = bar_plus_line_share_top_n(df, title=\"Introducer share: \u00a3 vs count\")",
+      "parameters": [
+        {
+          "name": "df",
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "annotation": "pd.DataFrame",
+          "has_default": false,
+          "default": null
+        },
+        {
+          "name": "category",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str",
+          "has_default": true,
+          "default": "category"
+        },
+        {
+          "name": "bar_value",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str",
+          "has_default": true,
+          "default": "amount_share"
+        },
+        {
+          "name": "line_value",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str",
+          "has_default": true,
+          "default": "count_share"
+        },
+        {
+          "name": "n",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str | None",
+          "has_default": true,
+          "default": "n"
+        },
+        {
+          "name": "top_n",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "int",
+          "has_default": true,
+          "default": 10
+        },
+        {
+          "name": "title",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str | None",
+          "has_default": true,
+          "default": null
+        },
+        {
+          "name": "xlabel",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str | None",
+          "has_default": true,
+          "default": null
+        },
+        {
+          "name": "bar_ylabel",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str",
+          "has_default": true,
+          "default": "Amount share"
+        },
+        {
+          "name": "line_ylabel",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str",
+          "has_default": true,
+          "default": "Count share"
+        },
+        {
+          "name": "y_tickformat",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str",
+          "has_default": true,
+          "default": ".1%"
+        },
+        {
+          "name": "annotate_n",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "bool",
+          "has_default": true,
+          "default": true
+        },
+        {
+          "name": "small_sample_handling",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "SmallSampleMode",
+          "has_default": true,
+          "default": "show"
+        }
+      ]
+    },
+    {
+      "name": "stacked_bar_volume_2x2_with_rate_line",
+      "kind": "style",
+      "module": "motor_graphs.styles.more_bars",
+      "summary": "2\u00d72 panel: three stacked-bar volume panels by introducer + one rate-line panel.",
+      "use_when": "- You want a single \"KPI dashboard\" snapshot of origination volume,\nloaned \u00a3, quoted volume, and the book-level quote/sale rates side\nby side in one figure.",
+      "data_shape": "Long/tidy DataFrame, one row per (month, introducer):\nmonth          (str or date) \u2014 origination month label\nintroducer     (str)         \u2014 introducer category (mapped via\n                               INTRODUCER_CATEGORY_COLORS)\ncount          (int)         \u2014 loans originated this row\namount         (float)       \u2014 \u00a3 originated this row\nquoted_count   (int)         \u2014 quotes sent this row\nquote_rate     (float)       \u2014 book-level quote rate for the month\n                               (decimal, same on every row of a month)\nsale_rate      (float)       \u2014 book-level sale rate for the month\n                               (decimal, same on every row of a month)",
+      "style_description": "2\u00d72 subplot grid:\n    (1,1) Stacked monthly bar of `count` by introducer.\n    (1,2) Stacked monthly bar of `amount` (\u00a3) by introducer.\n    (2,1) Stacked monthly bar of `quoted_count` by introducer.\n    (2,2) Two-line panel of `quote_rate` and `sale_rate` over months\n          (book-level, NOT per introducer).\nStack categories use INTRODUCER_CATEGORY_COLORS. n= total above each\ncolumn in the three bar panels.",
+      "snowflake_tables_used": "",
+      "example": ">>> df = pd.read_csv(\"stacked_bar_volume_2x2_with_rate_line.csv\")\n>>> fig = stacked_bar_volume_2x2_with_rate_line(df, title=\"Origination KPIs\")",
+      "parameters": [
+        {
+          "name": "df",
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "annotation": "pd.DataFrame",
+          "has_default": false,
+          "default": null
+        },
+        {
+          "name": "month",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str",
+          "has_default": true,
+          "default": "month"
+        },
+        {
+          "name": "introducer",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str",
+          "has_default": true,
+          "default": "introducer"
+        },
+        {
+          "name": "count_col",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str",
+          "has_default": true,
+          "default": "count"
+        },
+        {
+          "name": "amount_col",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str",
+          "has_default": true,
+          "default": "amount"
+        },
+        {
+          "name": "quoted_col",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str",
+          "has_default": true,
+          "default": "quoted_count"
+        },
+        {
+          "name": "quote_rate_col",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str",
+          "has_default": true,
+          "default": "quote_rate"
+        },
+        {
+          "name": "sale_rate_col",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str",
+          "has_default": true,
+          "default": "sale_rate"
+        },
+        {
+          "name": "title",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str | None",
+          "has_default": true,
+          "default": null
+        },
+        {
+          "name": "annotate_n",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "bool",
+          "has_default": true,
+          "default": true
+        }
+      ]
+    },
+    {
+      "name": "waterfall_components_by_grade",
+      "kind": "style",
+      "module": "motor_graphs.styles.more_bars",
+      "summary": "1\u00d7N panel grid of grouped bars over cashflow components, one panel per grade group.",
+      "use_when": "- You want a snapshot of the per-loan cashflow buildup (gross yield \u2192\nloss \u2192 VT \u2192 commission \u2192 servicing \u2192 net IRR) broken out by grade\ngroup (A-B / C-E / F+) in a single comparable figure.",
+      "data_shape": "Long/tidy DataFrame, one row per (grade_group, component):\ngrade_group  (str)   \u2014 panel split (e.g. \"A-B\", \"C-E\", \"F+\")\ncomponent    (str)   \u2014 bar label within each panel; preserves\n                        first-appearance order across panels\nvalue        (float) \u2014 height of the bar",
+      "style_description": "1\u00d7N subplot grid (N = number of distinct grade groups). Each panel\nrenders the components as a single grouped-bar series, colour cycled\npositionally through COHORT_COLORS. Value label above each bar\n(formatted via `y_tickformat`). Since components are aggregates and\nnot per-loan samples, `annotate_n` defaults to False.",
+      "snowflake_tables_used": "",
+      "example": ">>> df = pd.read_csv(\"waterfall_components_by_grade.csv\")\n>>> fig = waterfall_components_by_grade(df, title=\"Cashflow components by grade\")",
+      "parameters": [
+        {
+          "name": "df",
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "annotation": "pd.DataFrame",
+          "has_default": false,
+          "default": null
+        },
+        {
+          "name": "grade_group",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str",
+          "has_default": true,
+          "default": "grade_group"
+        },
+        {
+          "name": "component",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str",
+          "has_default": true,
+          "default": "component"
+        },
+        {
+          "name": "value",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str",
+          "has_default": true,
+          "default": "value"
+        },
+        {
+          "name": "title",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str | None",
+          "has_default": true,
+          "default": null
+        },
+        {
+          "name": "ylabel",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str",
+          "has_default": true,
+          "default": "\u00a3 per loan"
+        },
+        {
+          "name": "y_tickformat",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str",
+          "has_default": true,
+          "default": "\u00a3,.0f"
+        },
+        {
+          "name": "annotate_n",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "bool",
+          "has_default": true,
+          "default": false
+        }
+      ]
+    },
+    {
+      "name": "heatmap_swap",
+      "kind": "style",
+      "module": "motor_graphs.styles.heatmaps",
+      "summary": "X-grade \u00d7 Y-grade swap matrix heatmap with count + \u00a3-pct annotations.",
+      "use_when": "- You have a pivot of two scorecards (X vs Y) and want to see how loans\nshift between grade buckets \u2014 the \"swap matrix\" that drives MoTa\nscorecard rollout decisions.",
+      "data_shape": "Long/tidy DataFrame, one row per cell:\nx_grade       (str)   \u2014 grade under scorecard X (rows)\ny_grade       (str)   \u2014 grade under scorecard Y (cols)\ncount         (int)   \u2014 number of loans in this cell\npct_amount    (float, opt) \u2014 \u00a3-share in 0-100; shown alongside count if present",
+      "style_description": "Single panel heatmap. Sequential 'Blues' colorscale by default; pass\nDIVERGING_HEATMAP for deviation/lift-ratio variants. Each cell annotated\nwith the count (and \u00a3-pct on a second line if `amount_share` column is\npresent). Grade axes sorted by GRADE_COLOURS order (A \u2192 F**).",
+      "snowflake_tables_used": "",
+      "example": ">>> df = pd.read_csv(\"swap_matrix.csv\")\n>>> fig = heatmap_swap(df, title=\"Carrera \u00d7 Torino swap matrix\")",
+      "parameters": [
+        {
+          "name": "df",
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "annotation": "pd.DataFrame",
+          "has_default": false,
+          "default": null
+        },
+        {
+          "name": "x_grade",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str",
+          "has_default": true,
+          "default": "x_grade"
+        },
+        {
+          "name": "y_grade",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str",
+          "has_default": true,
+          "default": "y_grade"
+        },
+        {
+          "name": "count",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str",
+          "has_default": true,
+          "default": "count"
+        },
+        {
+          "name": "amount_share",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str | None",
+          "has_default": true,
+          "default": "pct_amount"
+        },
+        {
+          "name": "title",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str | None",
+          "has_default": true,
+          "default": null
+        },
+        {
+          "name": "x_label",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str",
+          "has_default": true,
+          "default": "Y scorecard grade"
+        },
+        {
+          "name": "y_label",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str",
+          "has_default": true,
+          "default": "X scorecard grade"
+        },
+        {
+          "name": "colorscale",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str",
+          "has_default": true,
+          "default": "Blues"
+        },
+        {
+          "name": "annotate",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "bool",
+          "has_default": true,
+          "default": true
+        }
+      ]
+    },
+    {
+      "name": "cohort_lines_vs_mob",
+      "kind": "style",
+      "module": "motor_graphs.styles.lines",
+      "summary": "One coloured line per cohort vs MOB, with optional dashed expected overlay.",
+      "use_when": "- You want to track a cumulative rate (VT, prepayment, gross default)\n  for each cohort separately, against months-on-book.\n- You want to spot whether more recent cohorts are diverging from older\n  ones, and from a benchmark curve.",
+      "data_shape": "Long/tidy DataFrame, one row per (cohort, mob):\ncohort    (str or date) \u2014 cohort label (e.g. \"2024-01\", \"2024-Q2\")\nmob       (int)         \u2014 months on book, integer\nrate      (float)       \u2014 cumulative rate at that MOB (decimal)\nexpected  (float, opt)  \u2014 single expected curve; same value across cohorts\n                           at a given MOB. Pass expected=None to disable.\nn         (int,   opt)  \u2014 cohort size; required if annotate_n=True.\n                           Same value across MOBs for a given cohort.",
+      "style_description": "Single panel. Each cohort gets its next colour in COHORT_COLORS (positional,\nso cohort-N matches across charts). Expected drawn as a red dashed line.\nn= annotation on the last (highest-MOB) point per cohort. Legend\nauto-flips to vertical-right when there are >6 cohorts.",
+      "snowflake_tables_used": "",
+      "example": ">>> df = pd.read_csv(\"cohort_lines.csv\")\n>>> fig = cohort_lines_vs_mob(df, ylabel=\"VT rate\", title=\"Cumulative VT\")",
+      "parameters": [
+        {
+          "name": "df",
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "annotation": "pd.DataFrame",
+          "has_default": false,
+          "default": null
+        },
+        {
+          "name": "cohort",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str",
+          "has_default": true,
+          "default": "cohort"
+        },
+        {
+          "name": "mob",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str",
+          "has_default": true,
+          "default": "mob"
+        },
+        {
+          "name": "y",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str",
+          "has_default": true,
+          "default": "rate"
+        },
+        {
+          "name": "expected",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str | None",
+          "has_default": true,
+          "default": "expected"
+        },
+        {
+          "name": "n",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str | None",
+          "has_default": true,
+          "default": "n"
+        },
+        {
+          "name": "title",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str | None",
+          "has_default": true,
+          "default": null
+        },
+        {
+          "name": "xlabel",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str",
+          "has_default": true,
+          "default": "MOB"
+        },
+        {
+          "name": "ylabel",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str",
+          "has_default": true,
+          "default": "Rate"
+        },
+        {
+          "name": "y_tickformat",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str",
+          "has_default": true,
+          "default": ".1%"
+        },
+        {
+          "name": "annotate_n",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "bool",
+          "has_default": true,
+          "default": true
+        },
+        {
+          "name": "small_sample_handling",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "SmallSampleMode",
+          "has_default": true,
+          "default": "show"
+        }
+      ]
+    },
+    {
+      "name": "dq_2x2_actual_vs_expected",
+      "kind": "style",
+      "module": "motor_graphs.styles.lines",
+      "summary": "2\u00d72 grid of line subplots \u2014 actual vs expected rate per DQ metric.",
+      "use_when": "- You have rate-over-cohort data for exactly 4 DQ metrics (30+/60+/90+\n  at various MOBs) and want to compare actual vs benchmark per metric.\n- You want a quick visual scan of divergence between blue solid (actual)\n  and red dashed (expected) across multiple horizons in one figure.",
+      "data_shape": "Long/tidy DataFrame, one row per (cohort, metric):\ncohort   (str or date) \u2014 the cohort label (e.g. \"2024-01\", \"2024-Q2\")\nmetric   (str)         \u2014 exactly 4 distinct values, one per subplot\nactual   (float)       \u2014 actual rate (decimal, e.g. 0.018 for 1.8%)\nexpected (float)       \u2014 expected/benchmark rate\nn        (int, opt)    \u2014 sample size; required if annotate_n=True",
+      "style_description": "2\u00d72 subplots, one per metric (sorted alphabetically). Each subplot:\n- Blue (#1f77b4) solid 2-px line for actual.\n- Red (#d62728) dashed 2-px line for expected.\n- n= annotation on the last actual point (when annotate_n=True).\n- Y-axis as percentages (.1%).",
+      "snowflake_tables_used": "",
+      "example": ">>> df = pd.read_csv(\"dq_2x2.csv\")\n>>> fig = dq_2x2_actual_vs_expected(df, title=\"Motor DQ \u2014 Apr 2026\")",
+      "parameters": [
+        {
+          "name": "df",
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "annotation": "pd.DataFrame",
+          "has_default": false,
+          "default": null
+        },
+        {
+          "name": "cohort",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str",
+          "has_default": true,
+          "default": "cohort"
+        },
+        {
+          "name": "metric",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str",
+          "has_default": true,
+          "default": "metric"
+        },
+        {
+          "name": "actual",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str",
+          "has_default": true,
+          "default": "actual"
+        },
+        {
+          "name": "expected",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str",
+          "has_default": true,
+          "default": "expected"
+        },
+        {
+          "name": "n",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str | None",
+          "has_default": true,
+          "default": "n"
+        },
+        {
+          "name": "title",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str | None",
+          "has_default": true,
+          "default": null
+        },
+        {
+          "name": "annotate_n",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "bool",
+          "has_default": true,
+          "default": true
+        },
+        {
+          "name": "small_sample_handling",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "SmallSampleMode",
+          "has_default": true,
+          "default": "show"
+        }
+      ]
+    },
+    {
+      "name": "dq_2x2_with_n_annotated",
+      "kind": "style",
+      "module": "motor_graphs.styles.dq_subplots",
+      "summary": "2\u00d72 grid of actual-vs-expected lines with n= annotated on EVERY visible point.",
+      "use_when": "- You have rate-over-cohort data for exactly 4 DQ metrics and want a\n  per-point readout of sample size, not just the most recent one.\n- You want fading on small-n points by default so the eye discounts\n  them visually \u2014 useful for the very recent / immature MOBs.",
+      "data_shape": "Long/tidy DataFrame, one row per (cohort, metric):\ncohort   (str or date) \u2014 cohort label\nmetric   (str)         \u2014 exactly 4 distinct values, one per subplot\nactual   (float)       \u2014 actual rate (decimal)\nexpected (float)       \u2014 expected/benchmark rate\nn        (int)         \u2014 sample size; required when annotate_n=True.\n                         Some n<50 / 50\u2264n<200 / n\u2265200 spreads exercise\n                         the small-sample fade/suppress logic.",
+      "style_description": "2\u00d72 subplots, one per metric (sorted alphabetically). Each subplot:\n- Blue (#1f77b4) solid 2-px line for actual.\n- Red (#d62728) dashed 2-px line for expected.\n- Marker opacity faded per EV thresholds (default\n  small_sample_handling=\"fade\": n<200 \u2192 0.35 opacity).\n- n= annotation on EVERY visible actual point (skipped only when\n  small_sample_handling=\"suppress\" has dropped the point to 0 opacity).\n- Y-axis as percentages (.1%).",
+      "snowflake_tables_used": "",
+      "example": ">>> df = pd.read_csv(\"dq_2x2_with_n_annotated.csv\")\n>>> fig = dq_2x2_with_n_annotated(df, title=\"Motor DQ \u2014 full n readout\")",
+      "parameters": [
+        {
+          "name": "df",
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "annotation": "pd.DataFrame",
+          "has_default": false,
+          "default": null
+        },
+        {
+          "name": "cohort",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str",
+          "has_default": true,
+          "default": "cohort"
+        },
+        {
+          "name": "metric",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str",
+          "has_default": true,
+          "default": "metric"
+        },
+        {
+          "name": "actual",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str",
+          "has_default": true,
+          "default": "actual"
+        },
+        {
+          "name": "expected",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str",
+          "has_default": true,
+          "default": "expected"
+        },
+        {
+          "name": "n",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str | None",
+          "has_default": true,
+          "default": "n"
+        },
+        {
+          "name": "title",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str | None",
+          "has_default": true,
+          "default": null
+        },
+        {
+          "name": "annotate_n",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "bool",
+          "has_default": true,
+          "default": true
+        },
+        {
+          "name": "small_sample_handling",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "SmallSampleMode",
+          "has_default": true,
+          "default": "fade"
+        }
+      ]
+    },
+    {
+      "name": "regression_validation_1x3",
+      "kind": "style",
+      "module": "motor_graphs.styles.dq_subplots",
+      "summary": "1\u00d73 subplot grid \u2014 actual vs predicted per regression-validation metric.",
+      "use_when": "- You have a regression / forecasting model and want to compare\n  realised vs predicted values across exactly 3 validation metrics\n  (e.g. 30+@3, 60+@6, 90+@9) side-by-side.\n- The actual/predicted contrast is the focus and a single row makes\n  it easy to scan left-to-right.",
+      "data_shape": "Long/tidy DataFrame, one row per (cohort, metric):\ncohort    (str or date) \u2014 cohort label, sorted within each panel\nmetric    (str)         \u2014 exactly 3 distinct values, one per panel\n                           (panels appear in alphabetical metric order)\nactual    (float)       \u2014 realised value (decimal)\npredicted (float)       \u2014 model prediction (decimal)\nn         (int, opt)    \u2014 sample size; required if annotate_n=True",
+      "style_description": "1\u00d73 subplots. Each panel:\n- Blue (#1f77b4) solid 2-px line for actual.\n- Red (#d62728) dashed 2-px line for predicted.\n- n= annotation on the last actual point per panel.\n- Y-axis as percentages (.1%).",
+      "snowflake_tables_used": "",
+      "example": ">>> df = pd.read_csv(\"regression_validation_1x3.csv\")\n>>> fig = regression_validation_1x3(df, title=\"Validation \u2014 H1 2026\")",
+      "parameters": [
+        {
+          "name": "df",
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "annotation": "pd.DataFrame",
+          "has_default": false,
+          "default": null
+        },
+        {
+          "name": "cohort",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str",
+          "has_default": true,
+          "default": "cohort"
+        },
+        {
+          "name": "metric",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str",
+          "has_default": true,
+          "default": "metric"
+        },
+        {
+          "name": "actual",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str",
+          "has_default": true,
+          "default": "actual"
+        },
+        {
+          "name": "predicted",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str",
+          "has_default": true,
+          "default": "predicted"
+        },
+        {
+          "name": "n",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str | None",
+          "has_default": true,
+          "default": "n"
+        },
+        {
+          "name": "title",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str | None",
+          "has_default": true,
+          "default": null
+        },
+        {
+          "name": "annotate_n",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "bool",
+          "has_default": true,
+          "default": true
+        },
+        {
+          "name": "small_sample_handling",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "SmallSampleMode",
+          "has_default": true,
+          "default": "show"
+        }
+      ]
+    },
+    {
+      "name": "cohort_lines_1x3_by_grade_group",
+      "kind": "style",
+      "module": "motor_graphs.styles.dq_subplots",
+      "summary": "1\u00d73 cohort-line subplots, one panel per grade group.",
+      "use_when": "- You want to compare cumulative rate (VT, default, prepayment) by\n  cohort within each of the 3 grade buckets (typically \"A-B\", \"C-E\",\n  \"F+\") \u2014 keeping each grade group on its own y-scale via separate\n  panels.\n- You want a single Expected curve overlaid per panel (red dashed),\n  shared across cohorts in that panel.",
+      "data_shape": "Long/tidy DataFrame, one row per (cohort, mob, grade_group):\ncohort      (str or date) \u2014 cohort label\nmob         (int)         \u2014 months on book\ngrade_group (str)         \u2014 exactly 3 distinct values, one per panel\n                             (panels appear in alphabetical group order)\nrate        (float)       \u2014 cumulative rate at that MOB (decimal)\nexpected    (float, opt)  \u2014 single expected curve per (grade_group, mob).\n                             Pass expected=None (or omit column) to\n                             disable the benchmark overlay.\nn           (int, opt)    \u2014 cohort size; required if annotate_n=True.\n                             Same value across MOBs for a given cohort.",
+      "style_description": "1\u00d73 subplots (horizontal_spacing=0.06). Each panel:\n- One line per cohort, coloured positionally from COHORT_COLORS.\n- Optional dashed Expected line in red.\n- n= annotation on the last (highest-MOB) point per cohort.\n- Y-axis as percentages by default.",
+      "snowflake_tables_used": "",
+      "example": ">>> df = pd.read_csv(\"cohort_lines_1x3_by_grade_group.csv\")\n>>> fig = cohort_lines_1x3_by_grade_group(df, ylabel=\"VT rate\")",
+      "parameters": [
+        {
+          "name": "df",
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "annotation": "pd.DataFrame",
+          "has_default": false,
+          "default": null
+        },
+        {
+          "name": "cohort",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str",
+          "has_default": true,
+          "default": "cohort"
+        },
+        {
+          "name": "mob",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str",
+          "has_default": true,
+          "default": "mob"
+        },
+        {
+          "name": "grade_group",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str",
+          "has_default": true,
+          "default": "grade_group"
+        },
+        {
+          "name": "y",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str",
+          "has_default": true,
+          "default": "rate"
+        },
+        {
+          "name": "expected",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str | None",
+          "has_default": true,
+          "default": "expected"
+        },
+        {
+          "name": "n",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str | None",
+          "has_default": true,
+          "default": "n"
+        },
+        {
+          "name": "title",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str | None",
+          "has_default": true,
+          "default": null
+        },
+        {
+          "name": "ylabel",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str",
+          "has_default": true,
+          "default": "Rate"
+        },
+        {
+          "name": "y_tickformat",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str",
+          "has_default": true,
+          "default": ".1%"
+        },
+        {
+          "name": "annotate_n",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "bool",
+          "has_default": true,
+          "default": true
+        },
+        {
+          "name": "small_sample_handling",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "SmallSampleMode",
+          "has_default": true,
+          "default": "show"
+        }
+      ]
+    },
+    {
+      "name": "cohort_lines_1x3_paired_expected",
+      "kind": "style",
+      "module": "motor_graphs.styles.dq_subplots",
+      "summary": "1\u00d73 cohort lines \u2014 per-cohort actual SOLID + per-cohort expected DASHED, same colour.",
+      "use_when": "- Each cohort has its OWN expected curve (a per-cohort forecast) and you\n  want to spot cohort-level drift from cohort-level expectations.\n- Pairing actual/expected in the same colour per cohort makes the\n  divergence within a cohort visually obvious \u2014 the dashed line drifts\n  away from the solid line of the same colour.",
+      "data_shape": "Long/tidy DataFrame, one row per (cohort, mob, grade_group):\ncohort      (str or date) \u2014 cohort label\nmob         (int)         \u2014 months on book\ngrade_group (str)         \u2014 exactly 3 distinct values, one per panel\nactual      (float)       \u2014 realised cumulative rate (decimal)\nexpected    (float)       \u2014 PER-COHORT expected curve (decimal)\nn           (int, opt)    \u2014 cohort size; required if annotate_n=True",
+      "style_description": "1\u00d73 subplots (horizontal_spacing=0.06). Each panel:\n- Per cohort: actual SOLID + expected DASHED in the SAME\n  COHORT_COLORS[i] colour (not red).\n- n= annotation on the last actual point per cohort.\n- Y-axis as percentages by default.",
+      "snowflake_tables_used": "",
+      "example": ">>> df = pd.read_csv(\"cohort_lines_1x3_paired_expected.csv\")\n>>> fig = cohort_lines_1x3_paired_expected(df, ylabel=\"Default rate\")",
+      "parameters": [
+        {
+          "name": "df",
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "annotation": "pd.DataFrame",
+          "has_default": false,
+          "default": null
+        },
+        {
+          "name": "cohort",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str",
+          "has_default": true,
+          "default": "cohort"
+        },
+        {
+          "name": "mob",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str",
+          "has_default": true,
+          "default": "mob"
+        },
+        {
+          "name": "grade_group",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str",
+          "has_default": true,
+          "default": "grade_group"
+        },
+        {
+          "name": "actual",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str",
+          "has_default": true,
+          "default": "actual"
+        },
+        {
+          "name": "expected",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str",
+          "has_default": true,
+          "default": "expected"
+        },
+        {
+          "name": "n",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str | None",
+          "has_default": true,
+          "default": "n"
+        },
+        {
+          "name": "title",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str | None",
+          "has_default": true,
+          "default": null
+        },
+        {
+          "name": "ylabel",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str",
+          "has_default": true,
+          "default": "Rate"
+        },
+        {
+          "name": "y_tickformat",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str",
+          "has_default": true,
+          "default": ".1%"
+        },
+        {
+          "name": "annotate_n",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "bool",
+          "has_default": true,
+          "default": true
+        },
+        {
+          "name": "small_sample_handling",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "SmallSampleMode",
+          "has_default": true,
+          "default": "show"
+        }
+      ]
+    },
+    {
+      "name": "roll_rate_dual_axis_lines",
+      "kind": "style",
+      "module": "motor_graphs.styles.dq_subplots",
+      "summary": "Single-panel dual-y-axis line chart for roll rates at different scales.",
+      "use_when": "- You have multiple roll-rate series that live at different orders of\n  magnitude (e.g. early-stage roll ~0.5% on one axis vs late-stage roll\n  ~3% on another) and want them on the same x-axis (monthly).\n- You also want to overlay \"counterfactual\" / improvement dashed lines.",
+      "data_shape": "Wide DataFrame, one row per period:\nx                (str/date) \u2014 month label\nsmall_axis_cols  (float)    \u2014 series for the LEFT y-axis (low scale)\nlarge_axis_cols  (float)    \u2014 series for the RIGHT y-axis (higher scale)\nn                (int, opt) \u2014 total volume for the month (not normally\n                               annotated \u2014 annotate_n defaults to False\n                               because the chart is about RATES).",
+      "style_description": "Single panel, secondary-y axis enabled. Colour assignment:\n- First small-axis series \u2192 ACTUAL (#1f77b4).\n- First large-axis series \u2192 ACTUAL; additional large series \u2192 SECONDARY\n  (#ff7f0e) then ADJUSTED (#2ca02c), then cycling COHORT_COLORS.\n- Any column listed in dashed_cols is rendered as a 2-px dashed line\n  (e.g. EXPECTED-style improvement / counterfactual indicators).\n- The left axis carries small-scale series, the right axis carries\n  large-scale series.",
+      "snowflake_tables_used": "",
+      "example": ">>> df = pd.read_csv(\"roll_rate_dual_axis_lines.csv\")\n>>> fig = roll_rate_dual_axis_lines(\n...     df,\n...     small_axis_cols=(\"early_roll\",),\n...     large_axis_cols=(\"mid_roll\", \"late_roll\", \"late_roll_improved\"),\n...     dashed_cols=(\"late_roll_improved\",),\n...     title=\"Roll rates by stage\",\n... )",
+      "parameters": [
+        {
+          "name": "df",
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "annotation": "pd.DataFrame",
+          "has_default": false,
+          "default": null
+        },
+        {
+          "name": "x",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str",
+          "has_default": true,
+          "default": "month"
+        },
+        {
+          "name": "small_axis_cols",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "Sequence[str]",
+          "has_default": true,
+          "default": [
+            "s1"
+          ]
+        },
+        {
+          "name": "large_axis_cols",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "Sequence[str]",
+          "has_default": true,
+          "default": [
+            "s2",
+            "s3",
+            "s4"
+          ]
+        },
+        {
+          "name": "dashed_cols",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "Sequence[str]",
+          "has_default": true,
+          "default": []
+        },
+        {
+          "name": "title",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str | None",
+          "has_default": true,
+          "default": null
+        },
+        {
+          "name": "xlabel",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str",
+          "has_default": true,
+          "default": "Month"
+        },
+        {
+          "name": "small_ylabel",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str",
+          "has_default": true,
+          "default": "Small-scale rate"
+        },
+        {
+          "name": "large_ylabel",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str",
+          "has_default": true,
+          "default": "Large-scale rate"
+        },
+        {
+          "name": "y_tickformat",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str",
+          "has_default": true,
+          "default": ".1%"
+        },
+        {
+          "name": "n",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str | None",
+          "has_default": true,
+          "default": null
+        },
+        {
+          "name": "annotate_n",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "bool",
+          "has_default": true,
+          "default": false
+        }
+      ]
+    },
+    {
+      "name": "lines_1x2_funnel_by_introducer",
+      "kind": "style",
+      "module": "motor_graphs.styles.multi_lines",
+      "summary": "1\u00d72 line subplots \u2014 one line per introducer in each panel.",
+      "use_when": "- You want to compare two conversion-funnel rates (e.g. quote rate and\n  quote-to-sale rate) across introducer categories over time.\n- You need a side-by-side view so movement in the upstream funnel stage\n  can be visually tied to movement in the downstream stage.",
+      "data_shape": "Long/tidy DataFrame, one row per (month, introducer):\nmonth       (str or date) \u2014 origination month label\nintroducer  (str)         \u2014 introducer category (matches keys of\n                              INTRODUCER_CATEGORY_COLORS where possible)\nquote_rate  (float)       \u2014 left-panel rate (decimal)\nsale_rate   (float)       \u2014 right-panel rate (decimal)\nn           (int, opt)    \u2014 sample size; required if annotate_n=True",
+      "style_description": "``rows=1, cols=2`` subplots. One coloured 2-px line per introducer in\neach panel, using ``INTRODUCER_CATEGORY_COLORS`` (falls back to grey).\nn= annotation on the last point per introducer in each panel. Y-axis\nformatted via ``y_tickformat`` (default \".1%\").",
+      "snowflake_tables_used": "",
+      "example": ">>> df = pd.read_csv(\"lines_1x2_funnel_by_introducer.csv\")\n>>> fig = lines_1x2_funnel_by_introducer(df, title=\"EV funnel\")",
+      "parameters": [
+        {
+          "name": "df",
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "annotation": "pd.DataFrame",
+          "has_default": false,
+          "default": null
+        },
+        {
+          "name": "month",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str",
+          "has_default": true,
+          "default": "month"
+        },
+        {
+          "name": "introducer",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str",
+          "has_default": true,
+          "default": "introducer"
+        },
+        {
+          "name": "y_left",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str",
+          "has_default": true,
+          "default": "quote_rate"
+        },
+        {
+          "name": "y_right",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str",
+          "has_default": true,
+          "default": "sale_rate"
+        },
+        {
+          "name": "n",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str | None",
+          "has_default": true,
+          "default": "n"
+        },
+        {
+          "name": "title",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str | None",
+          "has_default": true,
+          "default": null
+        },
+        {
+          "name": "ylabel_left",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str",
+          "has_default": true,
+          "default": "Quote rate"
+        },
+        {
+          "name": "ylabel_right",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str",
+          "has_default": true,
+          "default": "Quote-to-sale rate"
+        },
+        {
+          "name": "y_tickformat",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str",
+          "has_default": true,
+          "default": ".1%"
+        },
+        {
+          "name": "annotate_n",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "bool",
+          "has_default": true,
+          "default": true
+        },
+        {
+          "name": "small_sample_handling",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "SmallSampleMode",
+          "has_default": true,
+          "default": "show"
+        }
+      ]
+    },
+    {
+      "name": "lines_with_overall_highlight",
+      "kind": "style",
+      "module": "motor_graphs.styles.multi_lines",
+      "summary": "Multi-line single panel + bold \"Overall\" portfolio overlay.",
+      "use_when": "- You want to plot a rate per segment (grade, channel, vintage) and also\n  show the portfolio-wide average prominently as a reference line.\n- The \"Overall\" series should visually dominate so the reader can\n  immediately see whether a segment is above or below the book.",
+      "data_shape": "Long/tidy DataFrame, one row per (x, group):\nx       (str or date) \u2014 typically origination month\ngroup   (str)         \u2014 segment label; one of these MUST match\n                           ``overall_label`` to be drawn bold/black\nrate    (float)       \u2014 value to plot (decimal)\nn       (int, opt)    \u2014 sample size; required if annotate_n=True",
+      "style_description": "Single panel. Each segment is a 2-px coloured line \u2014 colour picked from\n``GRADE_COLOURS`` / ``INTRODUCER_CATEGORY_COLORS`` if the segment name\nis a known key, else from positional ``COHORT_COLORS``. The \"Overall\"\nseries (group == ``overall_label``) is drawn as a 4-px ``OVERLAY_BLACK``\nline on top, with a slightly larger marker. n= annotation on the last\npoint per segment.",
+      "snowflake_tables_used": "",
+      "example": ">>> df = pd.read_csv(\"lines_with_overall_highlight.csv\")\n>>> fig = lines_with_overall_highlight(df, title=\"90+@9 by grade\")",
+      "parameters": [
+        {
+          "name": "df",
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "annotation": "pd.DataFrame",
+          "has_default": false,
+          "default": null
+        },
+        {
+          "name": "x",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str",
+          "has_default": true,
+          "default": "month"
+        },
+        {
+          "name": "group",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str",
+          "has_default": true,
+          "default": "segment"
+        },
+        {
+          "name": "y",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str",
+          "has_default": true,
+          "default": "rate"
+        },
+        {
+          "name": "overall_label",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str",
+          "has_default": true,
+          "default": "Overall"
+        },
+        {
+          "name": "n",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str | None",
+          "has_default": true,
+          "default": "n"
+        },
+        {
+          "name": "title",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str | None",
+          "has_default": true,
+          "default": null
+        },
+        {
+          "name": "ylabel",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str",
+          "has_default": true,
+          "default": "Rate"
+        },
+        {
+          "name": "y_tickformat",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str",
+          "has_default": true,
+          "default": ".1%"
+        },
+        {
+          "name": "annotate_n",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "bool",
+          "has_default": true,
+          "default": true
+        },
+        {
+          "name": "small_sample_handling",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "SmallSampleMode",
+          "has_default": true,
+          "default": "show"
+        }
+      ]
+    },
+    {
+      "name": "segment_compare_2x2_with_gap",
+      "kind": "style",
+      "module": "motor_graphs.styles.multi_lines",
+      "summary": "2\u00d72 generic two-segment compare: rate, raw gap, grade-mix, mix-adjusted gap.",
+      "use_when": "- You have two subpopulation cuts of the book (BEV vs ROB, Carrera vs\n  Torino, dealer vs non-dealer, co-applicant vs sole, etc.) and want to\n  see both the underlying-rate gap AND whether it's driven by a\n  different risk-grade mix.\n- You want one figure that answers: \"is segment A's rate worse because\n  its loans are worse, or because it has more risky-grade loans?\"",
+      "data_shape": "Long/tidy DataFrame, one row per month with all metrics on the row:\n    month         (str or date) \u2014 period label\n    a             (float)        \u2014 segment A rate (decimal)\n    b             (float)        \u2014 segment B rate (decimal)\n    b_adj         (float)        \u2014 segment B rate reweighted to segment A's mix\n    gap           (float, opt)   \u2014 raw gap (a \u2212 b) in pp; computed if absent\n    a_good_share  (float)        \u2014 share of \"good\" grades in A (decimal 0-1)\n    b_good_share  (float)        \u2014 share of \"good\" grades in B (decimal 0-1)\n    n             (int, opt)     \u2014 sample size; required if annotate_n=True\n\nNote: any binary grade split works \u2014 \"good\" defaults to A-E and \"risky\"\nto F+ via the ``good_band_label`` / ``risky_band_label`` kwargs. Risky\nshare is computed as ``1 \u2212 good_share`` per segment.",
+      "style_description": "``rows=2, cols=2`` grid:\n\n* (1,1) TOP-LEFT \u2014 3-line rate panel: A (``ACTUAL`` blue), B (``SECONDARY``\n  orange), B-at-A-mix (``ADJUSTED`` green, dashed). n= on last point.\n* (1,2) TOP-RIGHT \u2014 bar panel of raw gap (a \u2212 b) in pp, ``EXPECTED`` red.\n* (2,1) BOTTOM-LEFT \u2014 horizontal stacked bars showing grade mix per\n  segment: good band (``ACTUAL`` blue) + risky band (``EXPECTED`` red).\n  Shares are averaged across the period so this is a single snapshot.\n* (2,2) BOTTOM-RIGHT \u2014 line of mix-adjusted gap (a \u2212 b_adj) in pp,\n  ``ADJUSTED`` green.\n\nReading guide: if (1,2) shows a big gap and (2,2) shows a small one, the\nrate gap is largely a MIX effect \u2014 (2,1) will show why (segment A has\nmore \"good\" grades or fewer \"risky\" ones).",
+      "snowflake_tables_used": "",
+      "example": ">>> df = pd.read_csv(\"segment_compare_2x2_with_gap.csv\")\n>>> # BEV vs ROB\n>>> fig = segment_compare_2x2_with_gap(\n...     df, a_col=\"bev\", b_col=\"rob\", adjusted_col=\"rob_adj\",\n...     a_label=\"BEV\", b_label=\"Rest of book\", adjusted_label=\"ROB at BEV mix\",\n...     title=\"BEV vs ROB \u2014 90+@9\",\n... )\n>>> # Carrera vs Torino on the same chart shape\n>>> fig = segment_compare_2x2_with_gap(\n...     df, a_col=\"carrera\", b_col=\"torino\", adjusted_col=\"torino_at_carrera_mix\",\n...     a_label=\"Carrera\", b_label=\"Torino\", adjusted_label=\"Torino at Carrera mix\",\n... )",
+      "parameters": [
+        {
+          "name": "df",
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "annotation": "pd.DataFrame",
+          "has_default": false,
+          "default": null
+        },
+        {
+          "name": "month",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str",
+          "has_default": true,
+          "default": "month"
+        },
+        {
+          "name": "a_col",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str",
+          "has_default": true,
+          "default": "a"
+        },
+        {
+          "name": "b_col",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str",
+          "has_default": true,
+          "default": "b"
+        },
+        {
+          "name": "adjusted_col",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str",
+          "has_default": true,
+          "default": "b_adj"
+        },
+        {
+          "name": "gap_col",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str",
+          "has_default": true,
+          "default": "gap"
+        },
+        {
+          "name": "a_good_share_col",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str",
+          "has_default": true,
+          "default": "a_good_share"
+        },
+        {
+          "name": "b_good_share_col",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str",
+          "has_default": true,
+          "default": "b_good_share"
+        },
+        {
+          "name": "n",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str | None",
+          "has_default": true,
+          "default": "n"
+        },
+        {
+          "name": "title",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str | None",
+          "has_default": true,
+          "default": null
+        },
+        {
+          "name": "a_label",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str",
+          "has_default": true,
+          "default": "Segment A"
+        },
+        {
+          "name": "b_label",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str",
+          "has_default": true,
+          "default": "Segment B"
+        },
+        {
+          "name": "adjusted_label",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str",
+          "has_default": true,
+          "default": "Segment B at A's mix"
+        },
+        {
+          "name": "good_band_label",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str",
+          "has_default": true,
+          "default": "A-E"
+        },
+        {
+          "name": "risky_band_label",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str",
+          "has_default": true,
+          "default": "F+"
+        },
+        {
+          "name": "y_tickformat",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str",
+          "has_default": true,
+          "default": ".1%"
+        },
+        {
+          "name": "annotate_n",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "bool",
+          "has_default": true,
+          "default": true
+        },
+        {
+          "name": "small_sample_handling",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "SmallSampleMode",
+          "has_default": true,
+          "default": "show"
+        }
+      ]
+    },
+    {
+      "name": "lines_funnel_by_introducer_1x1",
+      "kind": "style",
+      "module": "motor_graphs.styles.multi_lines",
+      "summary": "Single-panel variant of ``lines_1x2_funnel_by_introducer``.",
+      "use_when": "- You only have a single funnel stage (e.g. EV quote\u2192sale rate) and want\n  to track it over time, broken out by introducer category.\n- The 1\u00d72 variant would waste real estate on a missing second metric.",
+      "data_shape": "Long/tidy DataFrame, one row per (month, introducer):\nmonth       (str or date) \u2014 origination month label\nintroducer  (str)         \u2014 introducer category\nrate        (float)       \u2014 value to plot (decimal)\nn           (int, opt)    \u2014 sample size; required if annotate_n=True",
+      "style_description": "Single panel. One 2-px coloured line per introducer using\n``INTRODUCER_CATEGORY_COLORS`` (falls back to grey for unknown\ncategories). n= annotation on the last point per introducer.",
+      "snowflake_tables_used": "",
+      "example": ">>> df = pd.read_csv(\"lines_funnel_by_introducer_1x1.csv\")\n>>> fig = lines_funnel_by_introducer_1x1(df, title=\"EV quote-to-sale\")",
+      "parameters": [
+        {
+          "name": "df",
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "annotation": "pd.DataFrame",
+          "has_default": false,
+          "default": null
+        },
+        {
+          "name": "month",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str",
+          "has_default": true,
+          "default": "month"
+        },
+        {
+          "name": "introducer",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str",
+          "has_default": true,
+          "default": "introducer"
+        },
+        {
+          "name": "y",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str",
+          "has_default": true,
+          "default": "rate"
+        },
+        {
+          "name": "n",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str | None",
+          "has_default": true,
+          "default": "n"
+        },
+        {
+          "name": "title",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str | None",
+          "has_default": true,
+          "default": null
+        },
+        {
+          "name": "ylabel",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str",
+          "has_default": true,
+          "default": "Rate"
+        },
+        {
+          "name": "y_tickformat",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str",
+          "has_default": true,
+          "default": ".1%"
+        },
+        {
+          "name": "annotate_n",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "bool",
+          "has_default": true,
+          "default": true
+        },
+        {
+          "name": "small_sample_handling",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "SmallSampleMode",
+          "has_default": true,
+          "default": "show"
+        }
+      ]
+    },
+    {
+      "name": "line_with_ci_band",
+      "kind": "style",
+      "module": "motor_graphs.styles.multi_lines",
+      "summary": "One line per group + filled confidence-interval band.",
+      "use_when": "- You want to plot a rate over time per group and show its uncertainty\n  (95% CI, Wilson interval, bootstrap band) as a shaded region.\n- The CI bounds are precomputed upstream (this function does not infer\n  them from n).",
+      "data_shape": "Long/tidy DataFrame, one row per (x, group):\nx           (str or date) \u2014 typically origination month\ngroup       (str)         \u2014 series label\nrate        (float)       \u2014 central estimate (decimal)\nci_lower    (float)       \u2014 lower CI bound (decimal)\nci_upper    (float)       \u2014 upper CI bound (decimal)\nn           (int, opt)    \u2014 sample size; required if annotate_n=True",
+      "style_description": "Single panel. Each group:\n- One 2-px line in a positional ``COHORT_COLORS`` colour (parent trace,\n  legend visible).\n- One filled CI band traced as a closed polygon (upper bound forward +\n  lower bound reversed) with ``fill='toself'`` and fill colour\n  ``hex_to_rgba(line_color, CI_BAND_OPACITY)``; band is excluded from\n  the legend.\nn= annotation on the last point of each line.",
+      "snowflake_tables_used": "",
+      "example": ">>> df = pd.read_csv(\"line_with_ci_band.csv\")\n>>> fig = line_with_ci_band(df, title=\"90+@9 with 95% CI\")",
+      "parameters": [
+        {
+          "name": "df",
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "annotation": "pd.DataFrame",
+          "has_default": false,
+          "default": null
+        },
+        {
+          "name": "x",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str",
+          "has_default": true,
+          "default": "month"
+        },
+        {
+          "name": "group",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str",
+          "has_default": true,
+          "default": "group"
+        },
+        {
+          "name": "y",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str",
+          "has_default": true,
+          "default": "rate"
+        },
+        {
+          "name": "ci_lower",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str",
+          "has_default": true,
+          "default": "ci_lower"
+        },
+        {
+          "name": "ci_upper",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str",
+          "has_default": true,
+          "default": "ci_upper"
+        },
+        {
+          "name": "n",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str | None",
+          "has_default": true,
+          "default": "n"
+        },
+        {
+          "name": "title",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str | None",
+          "has_default": true,
+          "default": null
+        },
+        {
+          "name": "ylabel",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str",
+          "has_default": true,
+          "default": "Rate"
+        },
+        {
+          "name": "y_tickformat",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str",
+          "has_default": true,
+          "default": ".1%"
+        },
+        {
+          "name": "annotate_n",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "bool",
+          "has_default": true,
+          "default": true
+        },
+        {
+          "name": "small_sample_handling",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "SmallSampleMode",
+          "has_default": true,
+          "default": "show"
+        }
+      ]
+    },
+    {
+      "name": "scatter_calibration",
+      "kind": "style",
+      "module": "motor_graphs.styles.scatters",
+      "summary": "Scatter of expected vs actual default rate per bucket, with y=x diagonal.",
+      "use_when": "- You want to check whether your PD model (or equivalent \u2014 Lendable uses\n  IRR `input_90_in_9` as the PD substitute, since there is no\n  ORIGINATION_PD column) is calibrated against realised 90+@9 defaults.\n- Points above the y=x line mean realised defaults > expected; below\n  means the model is conservative.",
+      "data_shape": "Long/tidy DataFrame, one row per bucket:\nexpected_pd     (float) \u2014 expected default rate from the model (decimal)\nactual_default  (float) \u2014 realised 90+@9 rate for the bucket (decimal)\nn               (int)   \u2014 bucket size (drives bubble area)\nbucket          (str, opt) \u2014 label shown next to each point",
+      "style_description": "Single panel scatter. Bubble area \u221d n (encodes sample size). Black y=x\ndiagonal reference line. Point labels (bucket name) annotated next to\neach marker. Equal axes (both percentage). n= annotation on every point\nis implicit in the bubble size.",
+      "snowflake_tables_used": "",
+      "example": ">>> df = pd.read_csv(\"calibration_scatter.csv\")\n>>> fig = scatter_calibration(df, title=\"PD calibration check\")",
+      "parameters": [
+        {
+          "name": "df",
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "annotation": "pd.DataFrame",
+          "has_default": false,
+          "default": null
+        },
+        {
+          "name": "expected_pd",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str",
+          "has_default": true,
+          "default": "expected_pd"
+        },
+        {
+          "name": "actual_default",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str",
+          "has_default": true,
+          "default": "actual_default"
+        },
+        {
+          "name": "n",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str",
+          "has_default": true,
+          "default": "n"
+        },
+        {
+          "name": "label",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str | None",
+          "has_default": true,
+          "default": "bucket"
+        },
+        {
+          "name": "title",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str | None",
+          "has_default": true,
+          "default": null
+        },
+        {
+          "name": "xlabel",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str",
+          "has_default": true,
+          "default": "Expected default rate (IRR input_90_in_9)"
+        },
+        {
+          "name": "ylabel",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str",
+          "has_default": true,
+          "default": "Actual default rate (90+@9)"
+        },
+        {
+          "name": "tickformat",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str",
+          "has_default": true,
+          "default": ".1%"
+        },
+        {
+          "name": "annotate_n",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "bool",
+          "has_default": true,
+          "default": true
+        }
+      ]
+    },
+    {
+      "name": "violin_grouped",
+      "kind": "style",
+      "module": "motor_graphs.styles.distributions",
+      "summary": "One violin per category \u2014 distribution shape compare across grades/channels.",
+      "use_when": "- You have a continuous metric (LTV, APR, term, score) measured on many\n  observations per category, and want to see the full distribution\n  shape rather than just summary stats.\n- You want to compare distribution shape across risk grades or\n  introducer channels.",
+      "data_shape": "Long/tidy DataFrame, one row per observation:\ncategory (str)   \u2014 category label (grade, channel, etc.)\nvalue    (float) \u2014 the observed metric value\nn        (int, opt) \u2014 sample size per category (constant across rows\n                      of that category; required if annotate_n=True)",
+      "style_description": "Single panel, one violin per category. Box overlaid inside violin if\nshow_box=True. Colours are auto-picked: GRADE_COLOURS for grade labels,\nINTRODUCER_CATEGORY_COLORS for introducer labels, COHORT_COLORS otherwise.\nn= is appended to each x-axis tick label (e.g. \"A (n=1500)\").",
+      "snowflake_tables_used": "",
+      "example": ">>> df = pd.read_csv(\"violin_grouped.csv\")\n>>> fig = violin_grouped(df, category=\"grade\", value=\"ltv\",\n...                      ylabel=\"LTV\", y_tickformat=\".0%\")",
+      "parameters": [
+        {
+          "name": "df",
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "annotation": "pd.DataFrame",
+          "has_default": false,
+          "default": null
+        },
+        {
+          "name": "category",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str",
+          "has_default": true,
+          "default": "category"
+        },
+        {
+          "name": "value",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str",
+          "has_default": true,
+          "default": "value"
+        },
+        {
+          "name": "n",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str | None",
+          "has_default": true,
+          "default": "n"
+        },
+        {
+          "name": "category_order",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "list[str] | None",
+          "has_default": true,
+          "default": null
+        },
+        {
+          "name": "category_colors",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "dict[str, str] | None",
+          "has_default": true,
+          "default": null
+        },
+        {
+          "name": "title",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str | None",
+          "has_default": true,
+          "default": null
+        },
+        {
+          "name": "xlabel",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str",
+          "has_default": true,
+          "default": "Category"
+        },
+        {
+          "name": "ylabel",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str",
+          "has_default": true,
+          "default": "Value"
+        },
+        {
+          "name": "y_tickformat",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str | None",
+          "has_default": true,
+          "default": null
+        },
+        {
+          "name": "show_box",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "bool",
+          "has_default": true,
+          "default": true
+        },
+        {
+          "name": "annotate_n",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "bool",
+          "has_default": true,
+          "default": true
+        },
+        {
+          "name": "small_sample_handling",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "SmallSampleMode",
+          "has_default": true,
+          "default": "show"
+        }
+      ]
+    },
+    {
+      "name": "box_quantile",
+      "kind": "style",
+      "module": "motor_graphs.styles.distributions",
+      "summary": "Box per category \u2014 quartiles + q_low/q_high whiskers, no points.",
+      "use_when": "- You want a clean summary of distribution shape across categories\n  without the visual density of a violin.\n- You prefer custom whiskers (e.g. 10/90) over Tukey's 1.5\u00d7IQR rule.",
+      "data_shape": "Long/tidy DataFrame, one row per observation:\ncategory (str)   \u2014 category label\nvalue    (float) \u2014 observed metric\nn        (int, opt) \u2014 sample size per category (required if\n                      annotate_n=True)",
+      "style_description": "Single panel, one box per category. Box body = q1-q3; median line;\nwhiskers stretch to the q_low / q_high quantiles (default 10/90).\nColours auto-picked (grade / introducer / cohort cycle). n= is\nappended to each x-axis tick label.",
+      "snowflake_tables_used": "",
+      "example": ">>> df = pd.read_csv(\"box_quantile.csv\")\n>>> fig = box_quantile(df, category=\"grade\", value=\"apr\",\n...                    ylabel=\"APR\", y_tickformat=\".1%\")",
+      "parameters": [
+        {
+          "name": "df",
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "annotation": "pd.DataFrame",
+          "has_default": false,
+          "default": null
+        },
+        {
+          "name": "category",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str",
+          "has_default": true,
+          "default": "category"
+        },
+        {
+          "name": "value",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str",
+          "has_default": true,
+          "default": "value"
+        },
+        {
+          "name": "n",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str | None",
+          "has_default": true,
+          "default": "n"
+        },
+        {
+          "name": "q_low",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "float",
+          "has_default": true,
+          "default": 0.1
+        },
+        {
+          "name": "q_high",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "float",
+          "has_default": true,
+          "default": 0.9
+        },
+        {
+          "name": "category_order",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "list[str] | None",
+          "has_default": true,
+          "default": null
+        },
+        {
+          "name": "category_colors",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "dict[str, str] | None",
+          "has_default": true,
+          "default": null
+        },
+        {
+          "name": "title",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str | None",
+          "has_default": true,
+          "default": null
+        },
+        {
+          "name": "xlabel",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str",
+          "has_default": true,
+          "default": "Category"
+        },
+        {
+          "name": "ylabel",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str",
+          "has_default": true,
+          "default": "Value"
+        },
+        {
+          "name": "y_tickformat",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str | None",
+          "has_default": true,
+          "default": null
+        },
+        {
+          "name": "annotate_n",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "bool",
+          "has_default": true,
+          "default": true
+        }
+      ]
+    },
+    {
+      "name": "histogram_by_grade",
+      "kind": "style",
+      "module": "motor_graphs.styles.distributions",
+      "summary": "Stacked histogram coloured by risk grade \u2014 distribution by grade.",
+      "use_when": "- You want to see how a continuous variable (origination score, APR,\n  LTV) is distributed across the population, broken out by risk grade.\n- You want to verify that grade segmentation actually separates the\n  underlying distribution.",
+      "data_shape": "Long/tidy DataFrame, one row per observation:\nvalue (float) \u2014 the observed value\ngrade (str)   \u2014 grade label (one of GRADE_COLOURS keys)\nn     (int, opt) \u2014 sample size per grade (required if annotate_n=True;\n                   constant across rows of the same grade)",
+      "style_description": "Single panel stacked histogram with `barmode='stack'`. One trace per\ngrade, coloured via GRADE_COLOURS. If normalised=True, uses\nhistnorm='percent' so bars sum to 100% per bin. n= per grade is shown\nin the legend label (e.g. \"A (n=1500)\").",
+      "snowflake_tables_used": "",
+      "example": ">>> df = pd.read_csv(\"histogram_by_grade.csv\")\n>>> fig = histogram_by_grade(df, value=\"score\", grade=\"grade\",\n...                          title=\"Score distribution by grade\")",
+      "parameters": [
+        {
+          "name": "df",
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "annotation": "pd.DataFrame",
+          "has_default": false,
+          "default": null
+        },
+        {
+          "name": "value",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str",
+          "has_default": true,
+          "default": "value"
+        },
+        {
+          "name": "grade",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str",
+          "has_default": true,
+          "default": "grade"
+        },
+        {
+          "name": "nbins",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "int",
+          "has_default": true,
+          "default": 30
+        },
+        {
+          "name": "n",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str | None",
+          "has_default": true,
+          "default": "n"
+        },
+        {
+          "name": "title",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str | None",
+          "has_default": true,
+          "default": null
+        },
+        {
+          "name": "xlabel",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str",
+          "has_default": true,
+          "default": "Value"
+        },
+        {
+          "name": "ylabel",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str",
+          "has_default": true,
+          "default": "Count"
+        },
+        {
+          "name": "normalised",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "bool",
+          "has_default": true,
+          "default": false
+        },
+        {
+          "name": "annotate_n",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "bool",
+          "has_default": true,
+          "default": true
+        }
+      ]
+    },
+    {
+      "name": "cohort_grid_grade_x_period",
+      "kind": "style",
+      "module": "motor_graphs.styles.specialised",
+      "summary": "M\u00d7N grid of tiny actual-vs-model lines per (grade, period) cell.",
+      "use_when": "- You want a single sheet-of-paper view of how every cohort (grade \u00d7\n  period) is tracking against the model curve.\n- You need to spot outlier cells quickly \u2014 the \"Dev: \u00b1X%\" annotation\n  in the top-right corner of each cell makes deviation scannable.",
+      "data_shape": "Long/tidy DataFrame, one row per (grade, period, mob):\ngrade           (str)   \u2014 risk grade label (rows in the grid)\nperiod          (str)   \u2014 period / cohort label (columns in the grid)\nmob             (int)   \u2014 months on book (x axis within each cell)\nactual          (float) \u2014 actual rate at that MOB (decimal)\nmodel           (float) \u2014 model / expected rate at that MOB (decimal)\ndeviation_text  (str)   \u2014 pre-computed annotation per cell\n                           (e.g. \"Dev: +2.3%\"). Same value across MOBs.\nn               (int, opt) \u2014 sample size for the cell (required if\n                              annotate_n=True; constant across MOBs).",
+      "style_description": "Row = grade (sorted by GRADE_COLOURS), col = period (sorted ascending).\nEach cell holds a tiny line chart: blue solid actual + red dashed model.\nTop-right of each cell shows the pre-computed `deviation_text`. Bottom-\nright shows \"n=\u2026\" in small grey font (if annotate_n=True). Subplot\ntitles blank to save space; row labels on left, col labels on top.",
+      "snowflake_tables_used": "",
+      "example": ">>> df = pd.read_csv(\"cohort_grid_grade_x_period.csv\")\n>>> fig = cohort_grid_grade_x_period(df, title=\"Cohort grid \u2014 VT\")",
+      "parameters": [
+        {
+          "name": "df",
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "annotation": "pd.DataFrame",
+          "has_default": false,
+          "default": null
+        },
+        {
+          "name": "grade",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str",
+          "has_default": true,
+          "default": "grade"
+        },
+        {
+          "name": "period",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str",
+          "has_default": true,
+          "default": "period"
+        },
+        {
+          "name": "mob",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str",
+          "has_default": true,
+          "default": "mob"
+        },
+        {
+          "name": "actual",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str",
+          "has_default": true,
+          "default": "actual"
+        },
+        {
+          "name": "model",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str",
+          "has_default": true,
+          "default": "model"
+        },
+        {
+          "name": "deviation_text",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str",
+          "has_default": true,
+          "default": "deviation_text"
+        },
+        {
+          "name": "n",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str | None",
+          "has_default": true,
+          "default": "n"
+        },
+        {
+          "name": "title",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str | None",
+          "has_default": true,
+          "default": null
+        },
+        {
+          "name": "y_tickformat",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str",
+          "has_default": true,
+          "default": ".1%"
+        },
+        {
+          "name": "annotate_n",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "bool",
+          "has_default": true,
+          "default": true
+        },
+        {
+          "name": "small_sample_handling",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "SmallSampleMode",
+          "has_default": true,
+          "default": "show"
+        }
+      ]
+    },
+    {
+      "name": "funnel_horizontal",
+      "kind": "style",
+      "module": "motor_graphs.styles.specialised",
+      "summary": "Horizontal funnel \u2014 app \u2192 quote \u2192 originated stage counts.",
+      "use_when": "- You want to visualise how volume drops through a multi-stage\n  process (application \u2192 underwrite \u2192 quote \u2192 accepted \u2192 originated).\n- You want both the absolute count per stage AND the drop-off\n  percentage between adjacent stages.",
+      "data_shape": "Long/tidy DataFrame, one row per stage (in funnel order, top \u2192 bottom):\nstage (str) \u2014 stage name (used as the bar label)\ncount (int) \u2014 count at that stage\nn     (int, opt) \u2014 same as count for compatibility; ignored if\n                   None (the count column itself is the n).",
+      "style_description": "Horizontal funnel (go.Funnel). Stages stacked descending \u2014 top of the\nfunnel is the first row (widest bar), bottom is the last (narrowest).\nEach bar labeled with the count (formatted via `value_fmt`). If\nshow_pct_of_top, \"(X% of top)\" is appended. If show_dropoff, \"\u2193 N% drop\"\nannotations sit between adjacent stages. Colours: COHORT_COLORS cycle.",
+      "snowflake_tables_used": "",
+      "example": ">>> df = pd.read_csv(\"funnel_horizontal.csv\")\n>>> fig = funnel_horizontal(df, title=\"EV quote \u2192 sale funnel\")",
+      "parameters": [
+        {
+          "name": "df",
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "annotation": "pd.DataFrame",
+          "has_default": false,
+          "default": null
+        },
+        {
+          "name": "stage",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str",
+          "has_default": true,
+          "default": "stage"
+        },
+        {
+          "name": "count",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str",
+          "has_default": true,
+          "default": "count"
+        },
+        {
+          "name": "n",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str | None",
+          "has_default": true,
+          "default": null
+        },
+        {
+          "name": "title",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str | None",
+          "has_default": true,
+          "default": null
+        },
+        {
+          "name": "value_fmt",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str",
+          "has_default": true,
+          "default": ",.0f"
+        },
+        {
+          "name": "show_pct_of_top",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "bool",
+          "has_default": true,
+          "default": true
+        },
+        {
+          "name": "show_dropoff",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "bool",
+          "has_default": true,
+          "default": true
+        },
+        {
+          "name": "annotate_n",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "bool",
+          "has_default": true,
+          "default": true
+        }
+      ]
+    }
+  ],
+  "recipes": [
+    {
+      "name": "dq_aging_by_grade",
+      "kind": "recipe",
+      "module": "motor_graphs.recipes.dq",
+      "summary": "30+ DQ aging curves by cohort, faceted into 3 grade-group panels.",
+      "use_when": "- You want to see how cumulative 30+@MOB delinquency ages across\nmonthly cohorts that originated in the given window, segmented into\nA-B / C-E / F+ grade groups so each panel has its own y-scale.",
+      "data_shape": "",
+      "style_description": "",
+      "snowflake_tables_used": "- PROD.PRS_MOTOR.PRS__APPLICATION__MOTOR \u2014 origination master, provides\n  ORIGINATION_DATETIME (cohort source) and ORIGINATION_SIMPLIFIED_RISK_GRADE.\n- PROD.INT_MOTOR.INT__CONTRACTUAL_PAYMENTARREARS__MOTOR \u2014 per-loan per-MOB\n  arrears spine, provides MONTH_INDEX (= MOB) and MONTHS_IN_ARREARS.",
+      "example": ">>> from datetime import date\n>>> fig = dq_aging_by_grade(date(2024, 1, 1), date(2024, 4, 1))",
+      "parameters": [
+        {
+          "name": "cohort_start",
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "annotation": "date | str",
+          "has_default": false,
+          "default": null
+        },
+        {
+          "name": "cohort_end",
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "annotation": "date | str",
+          "has_default": false,
+          "default": null
+        },
+        {
+          "name": "mob_max",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "int",
+          "has_default": true,
+          "default": 18
+        },
+        {
+          "name": "title",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "Optional[str]",
+          "has_default": true,
+          "default": null
+        }
+      ]
+    },
+    {
+      "name": "dq_2x2_recent_book",
+      "kind": "recipe",
+      "module": "motor_graphs.recipes.dq",
+      "summary": "2x2 of 30+@1 / 30+@3 / 60+@6 / 90+@9 DQ \u2014 actual vs benchmark per metric.",
+      "use_when": "- You want a quick four-metric scan of recent-book DQ for monthly\ncohorts in the window: 30+@MOB1, 30+@MOB3, 60+@MOB6, 90+@MOB9,\nwith each panel comparing the actual rate to a benchmark.",
+      "data_shape": "",
+      "style_description": "",
+      "snowflake_tables_used": "- PROD.PRS_MOTOR.PRS__APPLICATION__MOTOR \u2014 origination master, provides\n  ORIGINATION_DATETIME (cohort source) and the originated filter.\n- PROD.MRT_MOTOR.MRT__DELINQUENCY_FLAGS_BY_MONTH__MOTOR \u2014 per-loan\n  DQ flags (DQ_30_1, DQ_30_3, DQ_60_6, DQ_90_BY_9).",
+      "example": ">>> from datetime import date\n>>> fig = dq_2x2_recent_book(date(2024, 1, 1), date(2024, 12, 1))",
+      "parameters": [
+        {
+          "name": "cohort_start",
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "annotation": "date | str",
+          "has_default": false,
+          "default": null
+        },
+        {
+          "name": "cohort_end",
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "annotation": "date | str",
+          "has_default": false,
+          "default": null
+        },
+        {
+          "name": "title",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "Optional[str]",
+          "has_default": true,
+          "default": null
+        }
+      ]
+    },
+    {
+      "name": "introducer_volume_league_table",
+      "kind": "recipe",
+      "module": "motor_graphs.recipes.volume",
+      "summary": "Top-N introducers by \u00a3 originated volume in the cohort window.",
+      "use_when": "- You need a league-table view of which introducers wrote the most\n  originated volume in a given cohort window.\n- You want to spot concentration risk in a small number of partners.",
+      "data_shape": "",
+      "style_description": "",
+      "snowflake_tables_used": "- ``PROD.PRS_MOTOR.PRS__APPLICATION__MOTOR`` (filtered on\n``APPLICATION_CREATED_DATETIME`` half-open + originated flag).",
+      "example": ">>> fig = introducer_volume_league_table(\"2024-01-01\", \"2024-04-01\", top_n=10)",
+      "parameters": [
+        {
+          "name": "cohort_start",
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "annotation": "date | str",
+          "has_default": false,
+          "default": null
+        },
+        {
+          "name": "cohort_end",
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "annotation": "date | str",
+          "has_default": false,
+          "default": null
+        },
+        {
+          "name": "top_n",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "int",
+          "has_default": true,
+          "default": 10
+        },
+        {
+          "name": "title",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "Optional[str]",
+          "has_default": true,
+          "default": null
+        }
+      ]
+    },
+    {
+      "name": "introducer_volume_mix_monthly",
+      "kind": "recipe",
+      "module": "motor_graphs.recipes.volume",
+      "summary": "Monthly 100%-stacked originated-volume mix across the 5 introducer categories.",
+      "use_when": "- You need to track how monthly \u00a3-originated mix splits across\n  Aggregator / Broker - Dealer led / Broker - Online led / Dealer /\n  Direct over time.\n- You want to spot channel regime shifts (e.g. Aggregator growing).",
+      "data_shape": "",
+      "style_description": "",
+      "snowflake_tables_used": "- ``PROD.PRS_MOTOR.PRS__APPLICATION__MOTOR`` (filtered on\n      ``ORIGINATION_DATETIME`` half-open + originated flag).\n\nNotes:\n    The richer 5-category taxonomy is built in-recipe from the raw\n    ``INTRODUCER`` string \u2014 ``normalize_introducer_category`` would\n    collapse this to 3 categories which loses the Dealer-led vs\n    Online-led split.",
+      "example": ">>> fig = introducer_volume_mix_monthly(\"2024-01-01\", \"2024-07-01\")",
+      "parameters": [
+        {
+          "name": "cohort_start",
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "annotation": "date | str",
+          "has_default": false,
+          "default": null
+        },
+        {
+          "name": "cohort_end",
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "annotation": "date | str",
+          "has_default": false,
+          "default": null
+        },
+        {
+          "name": "title",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "Optional[str]",
+          "has_default": true,
+          "default": null
+        }
+      ]
+    },
+    {
+      "name": "funnel_app_to_originated",
+      "kind": "recipe",
+      "module": "motor_graphs.recipes.funnel_distributions",
+      "summary": "Application \u2192 quote \u2192 bureau \u2192 affordability \u2192 contract \u2192 originated funnel.",
+      "use_when": "- You want a single horizontal funnel showing how many motor applications\n  made it through each gate in a cohort window.\n- You want to spot where the largest drop-offs sit (e.g. bureau vs\n  affordability vs contract).",
+      "data_shape": "",
+      "style_description": "",
+      "snowflake_tables_used": "- ``PROD.PRS_MOTOR.PRS__APPLICATION__MOTOR`` (one row per application)\n      Cohort filter: ``APPLICATION_CREATED_DATETIME >= start AND\n      APPLICATION_CREATED_DATETIME <  end`` (half-open).\n\nStages (in order, widest at top):\n    1. Applications     \u2014 all rows in the cohort window\n    2. Quoted           \u2014 ``FLAG_QUOTED = 1``\n    3. Bureau passed    \u2014 ``FLAG_EXPERIAN_CREDIT_CHECK_PASSED = 1`` OR (Experian\n       null AND ``FLAG_TRANSUNION_CREDIT_CHECK_PASSED = 1``). Captures apps\n       that route via TransUnion when Experian is unavailable.\n    4. Affordability    \u2014 ``FLAG_AFFORDABILITY_CHECK_PASSED_ANY_QUOTE = 1``\n    5. Contract signed  \u2014 ``FLAG_LOAN_CONTRACT_ACCEPTED = 1``\n    6. Originated       \u2014 ``COALESCE(FLAG_ORIGINATED_AND_NOT_CANCELLED,\n       FLAG_ORIGINATED) = TRUE`` (the canonical originated predicate).",
+      "example": ">>> from motor_graphs.recipes.funnel_distributions import funnel_app_to_originated\n>>> fig = funnel_app_to_originated(\"2024-01-01\", \"2024-02-01\")\n>>> fig.show()",
+      "parameters": [
+        {
+          "name": "cohort_start",
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "annotation": "date | str",
+          "has_default": false,
+          "default": null
+        },
+        {
+          "name": "cohort_end",
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "annotation": "date | str",
+          "has_default": false,
+          "default": null
+        },
+        {
+          "name": "title",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "Optional[str]",
+          "has_default": true,
+          "default": null
+        }
+      ]
+    },
+    {
+      "name": "score_distribution_by_grade",
+      "kind": "recipe",
+      "module": "motor_graphs.recipes.funnel_distributions",
+      "summary": "Bureau-score distribution by simplified risk grade \u2014 for originated loans.",
+      "use_when": "- You want to see how a bureau score (Delphi or Gauge) is distributed\n  across risk grades for originations in a cohort window.\n- You want to verify that the grade segmentation actually separates the\n  underlying score distribution.",
+      "data_shape": "",
+      "style_description": "",
+      "snowflake_tables_used": "- ``PROD.PRS_MOTOR.PRS__APPLICATION__MOTOR``. Cohort filter on\n``APPLICATION_CREATED_DATETIME``; originated filter via\n``COALESCE(FLAG_ORIGINATED_AND_NOT_CANCELLED, FLAG_ORIGINATED) = TRUE``.\nPulls one row per application with the requested score column and\n``ORIGINATION_SIMPLIFIED_RISK_GRADE``.",
+      "example": ">>> from motor_graphs.recipes.funnel_distributions import (\n...     score_distribution_by_grade,\n... )\n>>> fig = score_distribution_by_grade(\n...     \"2024-01-01\", \"2024-02-01\", score_col=\"DELPHI_SCORE\",\n... )\n>>> fig.show()",
+      "parameters": [
+        {
+          "name": "cohort_start",
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "annotation": "date | str",
+          "has_default": false,
+          "default": null
+        },
+        {
+          "name": "cohort_end",
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "annotation": "date | str",
+          "has_default": false,
+          "default": null
+        },
+        {
+          "name": "score_col",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str",
+          "has_default": true,
+          "default": "DELPHI_SCORE"
+        },
+        {
+          "name": "nbins",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "int",
+          "has_default": true,
+          "default": 30
+        },
+        {
+          "name": "title",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "Optional[str]",
+          "has_default": true,
+          "default": null
+        },
+        {
+          "name": "normalised",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "bool",
+          "has_default": true,
+          "default": false
+        }
+      ]
+    },
+    {
+      "name": "pd_calibration_irr",
+      "kind": "recipe",
+      "module": "motor_graphs.recipes.risk",
+      "summary": "IRR-implied 90+@9 vs realised 90+@9 calibration scatter (decile buckets).",
+      "use_when": "- You want to check whether the IRR model's ``input_90_in_9``\n  expectation is calibrated against realised ``DQ_90_BY_9`` outcomes\n  on originated loans.\n- You need the MoTa equivalent of a PD calibration plot \u2014 the\n  application table does not expose an ``ORIGINATION_PD`` column, so\n  ``input_90_in_9`` from\n  ``STG__FULL_LOAN_METRICS__MOTOR_IRR`` is used as the PD substitute.",
+      "data_shape": "",
+      "style_description": "",
+      "snowflake_tables_used": "- ``PROD.PRS_MOTOR.PRS__APPLICATION__MOTOR`` (cohort filter, originated\n  predicate).\n- ``PROD.STG_MOTOR_LENDABLE.STG__FULL_LOAN_METRICS__MOTOR_IRR`` (joined\n  on ``loan_id`` + ``mob`` to pick up ``input_90_in_9``).\n- ``PROD.MRT_MOTOR.MRT__DELINQUENCY_FLAGS_BY_MONTH__MOTOR`` (joined on\n  ``LOAN_ID`` to pick up ``DQ_90_BY_9``).",
+      "example": ">>> fig = pd_calibration_irr(\"2023-01-01\", \"2024-01-01\")\n>>> fig = pd_calibration_irr(\"2023-01-01\", \"2024-01-01\", n_buckets=20)",
+      "parameters": [
+        {
+          "name": "cohort_start",
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "annotation": "date | str",
+          "has_default": false,
+          "default": null
+        },
+        {
+          "name": "cohort_end",
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "annotation": "date | str",
+          "has_default": false,
+          "default": null
+        },
+        {
+          "name": "mob",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "int",
+          "has_default": true,
+          "default": 9
+        },
+        {
+          "name": "n_buckets",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "int",
+          "has_default": true,
+          "default": 10
+        },
+        {
+          "name": "title",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "Optional[str]",
+          "has_default": true,
+          "default": null
+        }
+      ]
+    },
+    {
+      "name": "segment_compare_dealer_vs_nondealer",
+      "kind": "recipe",
+      "module": "motor_graphs.recipes.risk",
+      "summary": "2x2 monthly compare of dealer vs non-dealer DQ, with a mix-adjusted gap.",
+      "use_when": "- You want to understand how dealer-channel originations compare to\n  non-dealer on a given DQ flag (default ``DQ_90_BY_9``) over time.\n- You also want to separate \"underlying performance\" from \"grade-mix\"\n  drivers of the gap.",
+      "data_shape": "",
+      "style_description": "",
+      "snowflake_tables_used": "- ``PROD.PRS_MOTOR.PRS__APPLICATION__MOTOR`` (cohort filter + grade).\n    - ``RAW_PRODUCTION.MOTOR_UK_LENDABLE.hirepurchaseloan`` (for\n      ``loanproduct_id``, used to derive ``IS_DEALER`` via the canonical\n      loan-product whitelist ``{14, 25, 54, 73, 125, 199, 277}``).\n    - ``PROD.MRT_MOTOR.MRT__DELINQUENCY_FLAGS_BY_MONTH__MOTOR`` (DQ flag).\n\nMix-adjusted calculation (counterfactual direction):\n    For each month, per grade group ``g`` in {A-B, C-E, F+}, compute the\n    non-dealer per-group DQ rate ``r_nondealer(g, month)`` (loans-weighted\n    within the group/month) and the dealer mix share\n    ``w_dealer(g, month) = n_dealer(g, month) / n_dealer(month)``.\n\n    ``b_adj`` (column name preserved for compatibility with\n    :func:`segment_compare_2x2_with_gap`) is then:\n\n        b_adj(month) = sum_g w_dealer(g, month) * r_nondealer(g, month)\n\n    Read it as: \"What would the non-dealer rate look like if the\n    non-dealer book had been originated with the dealer's grade mix?\"\n\n    Interpretation:\n        * ``a - b``     \u2014 total raw gap.\n        * ``a - b_adj`` \u2014 gap that remains AFTER controlling for grade\n          mix; this is the \"underlying performance\" gap.\n        * ``b_adj - b`` \u2014 the slice of the raw gap that comes purely\n          from dealer's mix being skewed vs non-dealer's mix; this is\n          the \"mix\" component.\n\n    Months where the dealer book has no presence in a grade group, or\n    where the non-dealer book has no presence in a grade group that the\n    dealer book uses, fall back to the overall non-dealer rate for that\n    month so the counterfactual stays defined.",
+      "example": ">>> fig = segment_compare_dealer_vs_nondealer(\"2023-01-01\", \"2024-01-01\")\n>>> fig = segment_compare_dealer_vs_nondealer(\n...     \"2023-01-01\", \"2024-01-01\", dq_col=\"DQ_60_6\"\n... )",
+      "parameters": [
+        {
+          "name": "cohort_start",
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "annotation": "date | str",
+          "has_default": false,
+          "default": null
+        },
+        {
+          "name": "cohort_end",
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "annotation": "date | str",
+          "has_default": false,
+          "default": null
+        },
+        {
+          "name": "dq_col",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "str",
+          "has_default": true,
+          "default": "DQ_90_BY_9"
+        },
+        {
+          "name": "title",
+          "kind": "KEYWORD_ONLY",
+          "annotation": "Optional[str]",
+          "has_default": true,
+          "default": null
+        }
+      ]
+    }
+  ]
+}

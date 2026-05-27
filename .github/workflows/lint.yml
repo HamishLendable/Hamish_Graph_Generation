@@ -1,0 +1,41 @@
+name: lint
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+# Cancel in-progress runs when a new push lands on the same branch
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  ruff:
+    name: ruff
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install ruff
+        run: pip install ruff==0.11.13
+
+      - name: ruff check
+        run: ruff check motor_graphs tests scripts
+
+      - name: ruff format check
+        run: ruff format --check motor_graphs tests scripts || true
+        # `|| true` for now — format check is non-blocking on v0.1.
+        # When the codebase is consistently `ruff format`-clean, drop the suffix.
+
+# NOTE: the full pytest suite is not run in CI because `lentils` (the Snowflake
+# data layer) lives on Lendable's internal PyPI and isn't reachable from GitHub
+# Actions without configured secrets. Tests are run locally via:
+#     poetry run pytest -m 'not snowflake'
+# The pre-commit hooks in .pre-commit-config.yaml catch most lint issues before
+# they reach CI.

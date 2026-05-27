@@ -1,0 +1,19 @@
+grade_group,component,value
+A-B,gross yield,1303.45
+A-B,loss,-442.5
+A-B,VT,-123.49
+A-B,commission,-153.08
+A-B,servicing,-118.34
+A-B,net IRR,525.37
+C-E,gross yield,2153.3
+C-E,loss,-458.2
+C-E,VT,-135.09
+C-E,commission,-198.37
+C-E,servicing,-130.46
+C-E,net IRR,583.62
+F+,gross yield,2549.66
+F+,loss,-663.3
+F+,VT,-157.85
+F+,commission,-184.89
+F+,servicing,-100.54
+F+,net IRR,430.22
